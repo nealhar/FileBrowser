@@ -1,0 +1,28 @@
+# .NET build output
+bin/
+obj/
+artifacts/
+TestResults/
+
+# Local file-browser data
+FileBrowserData/
+
+# IDE and user settings
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Local configuration and logs
+appsettings.Local.json
+.env
+.env.local
+.env.*.local
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

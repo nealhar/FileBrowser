@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="A lightweight browser for server-side files.">
+  <title>File Browser</title>
+  <link rel="stylesheet" href="/styles.css?v=20260731-4">
+</head>
+<body>
+  <main class="landing">
+    <section class="hero">
+      <h1>File Browser</h1>
+      <p>Browse and manage files inside the configured server directory.</p>
+      <button class="button button-primary" id="open-browser" type="button">
+        Open File Browser
+      </button>
+    </section>
+  </main>
+
+  <dialog id="file-browser-dialog" aria-labelledby="browser-title">
+    <div class="browser-shell">
+      <header class="browser-header">
+        <div class="browser-title">
+          <div>
+            <h1 id="browser-title">File browser</h1>
+            <p>Configured server directory</p>
+          </div>
+        </div>
+        <button class="button button-secondary" id="close-browser" type="button">Close</button>
+      </header>
+
+      <section class="browser-body">
+        <div class="path-row">
+          <nav id="breadcrumbs" class="breadcrumbs" aria-label="Current folder"></nav>
+          <button class="icon-button subtle" id="refresh-browser" type="button" aria-label="Refresh folder">↻</button>
+        </div>
+
+        <div class="command-row">
+          <form id="search-form" class="search-form" role="search">
+            <span aria-hidden="true">⌕</span>
+            <label class="sr-only" for="search-input">Search file and folder names</label>
+            <input id="search-input" name="query" type="search" autocomplete="off" placeholder="Search this folder">
+            <button type="submit">Search</button>
+          </form>
+          <div class="primary-actions">
+            <input id="upload-input" type="file" multiple hidden>
+            <button class="button button-secondary" id="upload-button" type="button">↑ Upload</button>
+            <button class="button button-primary" id="new-folder-button" type="button">＋ New folder</button>
+          </div>
+        </div>
+
+        <div id="selected-bar" class="selected-bar" hidden>
+          <p><span id="selected-name"></span> <small>selected</small></p>
+          <div>
+            <button data-selected-action="download" type="button">Download</button>
+            <button data-selected-action="copy" type="button">Copy</button>
+            <button data-selected-action="move" type="button">Move</button>
+            <button class="danger-text" data-selected-action="delete" type="button">Delete</button>
+          </div>
+        </div>
+
+        <div id="error-area" class="notice notice-error" role="alert" hidden></div>
+        <div id="loading-area" class="loading" aria-live="polite" hidden>
+          <span></span> Reading workspace…
+        </div>
+
+        <div class="table-frame">
+          <table>
+            <thead>
+              <tr>
+                <th class="select-cell"><span class="sr-only">Select</span></th>
+                <th>Name</th>
+                <th>Size</th>
+                <th>Modified</th>
+                <th class="actions-heading">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="file-rows"></tbody>
+          </table>
+          <div id="empty-state" class="empty-state" hidden>
+            <span aria-hidden="true">∅</span>
+            <h2>Nothing here yet</h2>
+            <p>Upload a file or create a folder to get started.</p>
+          </div>
+        </div>
+
+        <footer class="browser-footer">
+          <p id="status-summary" aria-live="polite">Ready</p>
+          <p id="limit-notice" class="limit-notice" hidden>Result limit reached</p>
+        </footer>
+      </section>
+    </div>
+  </dialog>
+
+  <dialog id="action-dialog" class="action-dialog" aria-labelledby="action-title">
+    <form id="action-form" method="dialog">
+      <header>
+        <h2 id="action-title">Confirm action</h2>
+        <p id="action-description"></p>
+      </header>
+      <label id="action-input-label" for="action-input">Value</label>
+      <input id="action-input" autocomplete="off">
+      <label id="recursive-row" class="check-row">
+        <input id="recursive-input" type="checkbox">
+        <span>Delete this folder and everything inside it</span>
+      </label>
+      <div id="action-error" class="notice notice-error" role="alert" hidden></div>
+      <footer>
+        <button class="button button-secondary" id="cancel-action" type="button">Cancel</button>
+        <button class="button button-primary" id="confirm-action" type="submit">Continue</button>
+      </footer>
+    </form>
+  </dialog>
+
+  <noscript>This application requires JavaScript.</noscript>
+  <script type="module" src="/app.js?v=20260731-3"></script>
+</body>
+</html>
