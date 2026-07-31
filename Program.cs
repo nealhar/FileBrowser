@@ -2,28 +2,34 @@ using System.Diagnostics;
 using FileBrowser.FileSystem;
 using Microsoft.AspNetCore.Http.Features;
 
+// creates application builder
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
+// configure FileBrowser options
 var options = builder.Configuration.GetSection("FileBrowser")
     .Get<FileBrowserOptions>() ?? new();
 if (options.MaximumSearchResults < 1 || options.MaximumUploadBytes < 1)
     throw new InvalidOperationException("FileBrowser limits must be greater than zero.");
 
+// registers FileBrowserOptions with .NET dependency injection container
 builder.Services.AddSingleton(options);
 builder.Services.AddSingleton(sp => new FileSystemService(
     options.HomeDirectory,
     sp.GetRequiredService<IWebHostEnvironment>().ContentRootPath));
+// Configures .NET parsing behavior
 builder.Services.Configure<FormOptions>(x =>
     x.MultipartBodyLengthLimit = options.MaximumUploadBytes);
 builder.WebHost.ConfigureKestrel(x =>
     x.Limits.MaxRequestBodySize = options.MaximumUploadBytes + 1_048_576);
 
+// Constructs web application
 var app = builder.Build();
 app.Logger.LogInformation("File browser root: {Root}",
     app.Services.GetRequiredService<FileSystemService>().RootPath);
 
+// adds middleware to HTTP request pipeline for logging
 app.Use(async (context, next) =>
 {
     try
@@ -69,6 +75,7 @@ app.UseStaticFiles(new StaticFileOptions
     OnPrepareResponse = x => x.Context.Response.Headers["Cache-Control"] = "no-cache"
 });
 
+// create api route group
 var files = app.MapGroup("/api/files");
 files.AddEndpointFilter(async (context, next) =>
 {
