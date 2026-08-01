@@ -153,7 +153,7 @@ public sealed class FileSystemService
         {
             cancellation.ThrowIfCancellationRequested();
             if (upload.Length > maximumBytes - total)
-                throw new BadHttpRequestException("The upload is too large.", Statuscodes.Status413PayloadTooLarge);
+                throw new BadHttpRequestException("The upload is too large.", 413);
             total += upload.Length;
 
             var name = ValidateName(Path.GetFileName(upload.FileName.Replace('\\', '/')));
