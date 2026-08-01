@@ -30,6 +30,7 @@ The main original implementation is in `FileSystem/FileSystemService.cs` and
 - Upload, download, create, delete, move, and copy
 - Deep-linkable navigation in a native dialog
 - File/folder counts and visible file sizes
+- Home Directory can be configured in `appsettings.json`
 
 All request paths are normalized and confined to the configured home directory.
 Uploads, downloads, and copies are streamed; browsing never calculates
