@@ -1,7 +1,6 @@
 # File Browser
 
-A lightweight ASP.NET Core file browser built for the MapLarge internship
-exercise. The frontend uses vanilla JavaScript with no framework or build step.
+A lightweight file browser project using ASP.NET Core for the backend. The frontend uses vanilla JavaScript with no framework or build step.
 
 ## Run
 
